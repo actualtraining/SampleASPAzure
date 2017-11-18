@@ -43,12 +43,17 @@ namespace SampleASPWebsite.Controllers
 
         // POST: Kategori/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Kategori kategori)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+                {
+                    string strSql = @"insert into Kategori(KategoriNama) 
+                                      values(@KategoriNama)";
+                    var param = new { KategoriNama = kategori.KategoriNama };
+                    conn.Execute(strSql, param);
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -60,7 +65,13 @@ namespace SampleASPWebsite.Controllers
         // GET: Kategori/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Kategori kategori;
+            using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                string strSql = @"select * from Kategori where KategoriID=@KategoriID";
+                kategori = conn.QuerySingle<Kategori>(strSql, new { KategoriID = id });
+            }
+            return View(kategori);
         }
 
         // POST: Kategori/Edit/5
