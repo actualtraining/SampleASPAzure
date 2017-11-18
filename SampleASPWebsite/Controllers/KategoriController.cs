@@ -76,12 +76,17 @@ namespace SampleASPWebsite.Controllers
 
         // POST: Kategori/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Kategori kategori)
         {
             try
-            {
-                // TODO: Add update logic here
-
+            {             
+                using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+                {
+                    string strSql = @"update Kategori set KategoriNama=@KategoriNama 
+                                      where KategoriID=@KategoriID";
+                    var param = new { KategoriNama = kategori.KategoriNama, KategoriID = id };
+                    conn.Execute(strSql, param);
+                }
                 return RedirectToAction("Index");
             }
             catch
