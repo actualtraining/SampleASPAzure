@@ -1,0 +1,33 @@
+﻿@model IEnumerable<SampleASPWebsite.Models.Kategori>
+
+@{
+    ViewBag.Title = "Daftar Kategori";
+}
+
+<h2>Daftar Kategori</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.KategoriNama)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.KategoriNama)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.KategoriID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.KategoriID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.KategoriID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -23,7 +23,7 @@ namespace SampleASPWebsite.Controllers
             List<Kategori> listKategori;
             using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
-                string strSql = @"select * from Kategori order by KategoriName asc";
+                string strSql = @"select * from Kategori order by KategoriNama asc";
                 listKategori = conn.Query<Kategori>(strSql).ToList();
             }
             return View(listKategori);
