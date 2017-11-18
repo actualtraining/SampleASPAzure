@@ -47,7 +47,7 @@ namespace SampleASPWebsite.Controllers
         {
             try
             {
-                using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+                using (SqlConnection conn = new SqlConnection(GetConnectionString()))
                 {
                     string strSql = @"insert into Kategori(KategoriNama) 
                                       values(@KategoriNama)";
@@ -66,7 +66,7 @@ namespace SampleASPWebsite.Controllers
         public ActionResult Edit(int id)
         {
             Kategori kategori;
-            using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
             {
                 string strSql = @"select * from Kategori where KategoriID=@KategoriID";
                 kategori = conn.QuerySingle<Kategori>(strSql, new { KategoriID = id });
@@ -79,8 +79,8 @@ namespace SampleASPWebsite.Controllers
         public ActionResult Edit(int id, Kategori kategori)
         {
             try
-            {             
-                using(SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                using (SqlConnection conn = new SqlConnection(GetConnectionString()))
                 {
                     string strSql = @"update Kategori set KategoriNama=@KategoriNama 
                                       where KategoriID=@KategoriID";
@@ -98,17 +98,27 @@ namespace SampleASPWebsite.Controllers
         // GET: Kategori/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Kategori kategori;
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                string strSql = @"select * from Kategori where KategoriID=@KategoriID";
+                kategori = conn.QuerySingle<Kategori>(strSql, new { KategoriID = id });
+            }
+            return View(kategori);
         }
 
         // POST: Kategori/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [ActionName("Delete")]
+        public ActionResult DeletePost(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+                {
+                    string strSql = @"delete from Kategori where KategoriID=@KategoriID";
+                    conn.Execute(strSql, new { KategoriID = id });
+                }
                 return RedirectToAction("Index");
             }
             catch
